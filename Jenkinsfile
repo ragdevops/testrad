@@ -28,8 +28,7 @@ pipeline {
                             }
                         ]
                     }"""
-
-                   server.upload(uploadspec)
+                  server.upload(uploadspec)
                 }
             }
         }
