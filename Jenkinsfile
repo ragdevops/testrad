@@ -79,9 +79,7 @@ pipeline {
          stage ('Removing files') {
             steps {
                 sh 'rm -rf $WORKSPACE/*'
-            }
-        }
-         
-        
+            }  
   }
+}
 }
