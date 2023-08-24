@@ -1,0 +1,7 @@
+<distributionManagement>
+    <repository>
+        <id>central</id>
+        <name>ip-172-31-61-51.ec2.internal-releases</name>
+        <url>http://ec2-52-23-177-246.compute-1.amazonaws.com:8081/artifactory/libs-release</url>
+    </repository>
+</distributionManagement>
