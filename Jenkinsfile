@@ -29,7 +29,7 @@ pipeline {
                         ]
                     }"""
 
-                    rtUpload(uploadSpec: uploadSpec, serverId: 'artifactory-server')
+                   server.upload(uploadspec)
                 }
             }
         }
