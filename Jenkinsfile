@@ -11,9 +11,13 @@ pipeline {
           steps {
              git url:'https://github.com/ragdevops/testrad.git'
              }
+        }
+    }
     stages {
         stage('Build') {
             steps {
                 sh 'python3 zip_job.py'
             }
         }
+    }
+    }
