@@ -17,5 +17,9 @@ pipeline {
                 sh 'python3 zip_job.py'
             }
         }
+        stage('Publish') {
+            when {
+                expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
+            }
     }
 }
