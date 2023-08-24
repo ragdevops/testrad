@@ -17,21 +17,22 @@ pipeline {
                 sh 'python3 zip_job.py'
             }
         }
-        stage('Publish') {
-            when {
-                expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
-            }
+        stage('Upload to Artifactory') {
             steps {
                 script {
-                    def zipFiles = sh(script: 'ls *_${env.VERSION}.zip', returnStdout: true).trim().split('\n')
-                    zipFiles.each { zipFile ->
-                        def filePath = "./${zipFile}"
-                        def targetPath = "${REPO_PATH}/${zipFile}"
-                        def uploadCmd = "curl -u ${ARTIFACTORY_USER}:${ARTIFACTORY_PASSWORD} -XPUT ${ARTIFACTORY_URL}/${targetPath} -T ${filePath}"
-                        sh uploadCmd
-                    }
+                    def uploadSpec = """{
+                        "files": [
+                            {
+                                "pattern": "*.zip",
+                                "target": "my-repo/{BUILD_NUMBER}/"
+                            }
+                        ]
+                    }"""
+
+                    rtUpload(uploadSpec: uploadSpec, serverId: 'artifactory-server')
                 }
+            }
+        }
     }
 }
-}
-}
+    
