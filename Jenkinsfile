@@ -38,19 +38,5 @@ pipeline {
                 }
             }
         }
-        stage('Report') {
-            post {
-                always {
-                    emailext body: "Job Status: ${currentBuild.currentResult}", subject: "Job Status Report", to: "requestor@example.com"
-                }
-            }
-        }
-        stage('Cleanup') {
-            post {
-                always {
-                    deleteDir()
-                }
-            }
-        }
     }
-}      
+}
