@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    dockerfile {
+        dockerfile {
             dir 'path/to/Dockerfile'
             args '-u root:root --privileged'
         }
