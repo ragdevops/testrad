@@ -38,7 +38,6 @@ pipeline {
                 }
             }
         }
-        
         stage('Report') {
             post {
                 always {
@@ -46,7 +45,6 @@ pipeline {
                 }
             }
         }
-        
         stage('Cleanup') {
             post {
                 always {
