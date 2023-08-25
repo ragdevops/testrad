@@ -19,18 +19,10 @@ pipeline {
                 sh 'python3 zip_job.py'
             }
         }
-        stage('Publish') {
+        stage('Build docker image') {
              steps {
-                script {
-                    def zipFiles = sh(script: 'ls *_${env.VERSION}.zip', returnStdout: true).trim().split('\n')
-                    zipFiles.each { zipFile ->
-                        def filePath = "./${zipFile}"
-                        def targetPath = "${REPO_PATH}/${zipFile}"
-                        def uploadCmd = "curl -u ${ARTIFACTORY_USER}:${ARTIFACTORY_PASSWORD} -XPUT ${ARTIFACTORY_URL}/${targetPath} -T ${filePath}"
-                        sh uploadCmd
-                    }
+                 sh 'docker build -t radwareimage . '
                 }
-}
 }
 }
 }
