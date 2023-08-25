@@ -1,9 +1,7 @@
 pipeline {
-    agent any
-        docker {
-            dir 'path/to/Dockerfile'
-            args '-u root:root --privileged'
-        }
+    agent {
+         label 'zip-job-docker'
+    }
     environment {
         ARTIFACTORY_URL = '''https://http://ec2-52-23-177-246.compute-1.amazonaws.com:8081/artifactory/webapp/#/home/'''
         ARTIFACTORY_USER = 'superman'
@@ -19,23 +17,6 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'python3 zip_job.py'
-            }
-        }
-        stage('Publish') {
-            when {
-                expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
-            }
-            steps {
-                script {
-                    def files = sh(
-                        script: 'ls *.zip',
-                        returnStdout: true
-                    ).trim()
-                    files.split('\n').each { file ->
-                        def targetPath = "${ARTIFACTORY_SERVER}/${ARTIFACTORY_REPO}/${file}"
-                        sh "curl -u ${ARTIFACTORY_USER}:${ARTIFACTORY_PASSWORD} -T ${file} ${targetPath}"
-                    }
-                }
             }
         }
     }
