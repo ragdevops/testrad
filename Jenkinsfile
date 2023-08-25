@@ -1,5 +1,7 @@
 pipeline {
     agent {
+        docker {
+            filename 'Dockerfile'
             label 'zip-job-docker'
     }
     environment {
@@ -31,7 +33,7 @@ pipeline {
                     }
                     }
                 }
-        }
+             }
       }
        stage('Report') {
             post {
@@ -40,5 +42,6 @@ pipeline {
                   }
               }
        }
+ }
 }
    
