@@ -20,7 +20,7 @@ pipeline {
             }
         }
       stage('Publish') {
-        teps {
+        steps {
                 script {
                     def zipFiles = sh(script: 'ls }.zip', returnStdout: true).trim().split('\n')
                     zipFiles.each { zipFile ->
@@ -29,4 +29,10 @@ pipeline {
                         def uploadCmd = "curl -u ${ARTIFACTORY_USER}:${ARTIFACTORY_PASSWORD} -XPUT ${ARTIFACTORY_URL}/${http://ec2-52-23-212-39.compute-1.amazonaws.com:8081/artifactory/libs-release/} -T ${filePath}"
                         sh uploadCmd
                     }
+                    }
+                }
+        }
+      }
+    }
+}
    
