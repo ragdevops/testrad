@@ -1,6 +1,8 @@
 pipeline {
     agent {
-         label 'zip-job-docker'
+        dockerfile {
+            filename 'Dockerfile'
+            label 'zip-job-docker'
     }
     environment {
         ARTIFACTORY_URL = '''https://http://ec2-52-23-177-246.compute-1.amazonaws.com:8081/artifactory/webapp/#/home/'''
@@ -20,6 +22,18 @@ pipeline {
             }
         }
         stage('Publish') {
+             steps {
+                script {
+                    def zipFiles = sh(script: 'ls *_${env.VERSION}.zip', returnStdout: true).trim().split('\n')
+                    zipFiles.each { zipFile ->
+                        def filePath = "./${zipFile}"
+                        def targetPath = "${REPO_PATH}/${zipFile}"
+                        def uploadCmd = "curl -u ${ARTIFACTORY_USER}:${ARTIFACTORY_PASSWORD} -XPUT ${ARTIFACTORY_URL}/${targetPath} -T ${filePath}"
+                        sh uploadCmd
+                    }
+                }
 }
 }
+}
+    }
 }
