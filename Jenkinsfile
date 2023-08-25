@@ -26,13 +26,19 @@ pipeline {
                     zipFiles.each { zipFile ->
                         def filePath = "./${zipFile}"
                         def targetPath = "${REPO_PATH}/${zipFile}"
-                        def uploadCmd = "curl -u ${ARTIFACTORY_USER}:${ARTIFACTORY_PASSWORD} -XPUT ${ARTIFACTORY_URL}/${http://ec2-52-23-212-39.compute-1.amazonaws.com:8081/artifactory/libs-release/} -T ${filePath}"
+                        def uploadCmd = "curl -u ${ARTIFACTORY_USER}:${ARTIFACTORY_PASSWORD} -XPUT ${ARTIFACTORY_URL}/${REPO_PATH} -T ${filePath}"
                         sh uploadCmd
                     }
                     }
                 }
         }
       }
-    }
+       stage('Report') {
+            post {
+                always {
+                    emailext body: "Job Status: ${currentBuild.currentResult}", subject: "Job Status Report", to: "requestor@example.com" 
+                  }
+              }
+       }
 }
    
