@@ -19,6 +19,8 @@ pipeline {
                 sh 'python3 zip_job.py'
             }
         }
+    }
+}
         stage ( build docker image')
                steps {
                    sh 'docker built -t debain .'
