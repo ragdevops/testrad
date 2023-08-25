@@ -1,7 +1,5 @@
 pipeline {
     agent {
-        docker {
-            filename 'Dockerfile'
             label 'zip-job-docker'
     }
     environment {
