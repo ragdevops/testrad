@@ -6,7 +6,7 @@ pipeline {
         ARTIFACTORY_URL = '''https://http://ec2-52-23-177-246.compute-1.amazonaws.com:8081/artifactory/webapp/#/home/'''
         ARTIFACTORY_USER = 'superman'
         ARTIFACTORY_PASSWORD = 'P@ssw0rd123$'
-        REPO_PATH = "store-artifacts/${env.VERSION}"
+        REPO_PATH = "store-artifacts/}http://ec2-52-23-212-39.compute-1.amazonaws.com:8081/artifactory/libs-release/"
     }
     stages{
       stage('Checkout Source') {
@@ -20,21 +20,13 @@ pipeline {
             }
         }
       stage('Publish') {
-            when {
-                expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
-            }
-            steps {
+        teps {
                 script {
-                    def zipFiles = sh(script: 'ls *_${env.VERSION}.zip', returnStdout: true).trim().split('\n')
+                    def zipFiles = sh(script: 'ls }.zip', returnStdout: true).trim().split('\n')
                     zipFiles.each { zipFile ->
                         def filePath = "./${zipFile}"
                         def targetPath = "${REPO_PATH}/${zipFile}"
-                        def uploadCmd = "curl -u ${ARTIFACTORY_USER}:${ARTIFACTORY_PASSWORD} -XPUT ${ARTIFACTORY_URL}/${targetPath} -T ${filePath}"
+                        def uploadCmd = "curl -u ${ARTIFACTORY_USER}:${ARTIFACTORY_PASSWORD} -XPUT ${ARTIFACTORY_URL}/${http://ec2-52-23-212-39.compute-1.amazonaws.com:8081/artifactory/libs-release/} -T ${filePath}"
                         sh uploadCmd
                     }
-                }
-            }
-        }
-    }
-}
    
